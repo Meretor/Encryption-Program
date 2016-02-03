@@ -77,4 +77,39 @@ public class Crypto {
         //System.out.println(checkInt);
         return alph.indexOf(check);
     }
+
+    public static String controller(String work, String key, boolean choice)
+    {
+        StringBuffer checking = new StringBuffer();
+        StringBuffer out = new StringBuffer();
+        int keyPup = 0;
+        for ( int i = 0; i < work.length(); i++)
+        {
+            checking.append(Character.toLowerCase(work.charAt(i)));
+            //System.out.println(i);
+
+            if (! Crypto.alph.contains(checking))
+            {
+                out.append(work.charAt(i));
+            }
+            else
+            {
+                if (choice)
+                {
+                    out.append(Crypto.encrypt(work.charAt(i), Character.isUpperCase(work.charAt(i)), key.charAt(keyPup), Character.isUpperCase(key.charAt(keyPup))));
+                }
+                else
+                {
+                    out.append(Crypto.decrypt(work.charAt(i), Character.isUpperCase(work.charAt(i)), key.charAt(keyPup), Character.isUpperCase(key.charAt(keyPup))));
+                }
+                keyPup +=1;
+            }
+            if (keyPup >= key.length())
+            {
+                keyPup -= key.length();
+            }
+            checking.deleteCharAt(0);
+        }
+        return new String(out);
+    }
 }
