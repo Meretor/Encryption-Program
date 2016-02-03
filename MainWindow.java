@@ -11,6 +11,7 @@ public class MainWindow extends Application
     @Override
     public void start(Stage primary)
     {
+        //Makes windows -- potentially put in init and declare stuff outside of block?
         primary.setTitle("Vigenere Encrypter-Decrypter");
         TextArea inputEn = new TextArea();
         inputEn.setPromptText("Phrase to be encrypted");
@@ -31,7 +32,7 @@ public class MainWindow extends Application
         encrypt.setOnAction(e -> {
             //System.out.println(inputEn.getText());
             //System.out.println(keyWordEn.getText());
-            outputEn.setText(Crypto.controller(inputEn.getText(), Crypto.sanitize(keyWordEn.getText()), true));
+            outputEn.setText(Crypto.controller(inputEn.getText(), Crypto.sanitize(keyWordEn.getText()), true)); // Currently tells 
         });
         decrypt.setOnAction(d -> {
             //System.out.println(inputDe.getText());
