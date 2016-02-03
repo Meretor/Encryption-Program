@@ -6,7 +6,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.layout.HBox;
 import java.util.ArrayList;
 import javafx.scene.control.TextArea;
-public class Vigenere extends Application
+public class MainWindow extends Application
 {
     @Override
     public void start(Stage primary)
@@ -56,7 +56,7 @@ public class Vigenere extends Application
             System.out.println(s.charAt(i) == '\n' || s.charAt(i) == ' ');
         }
     }
-    public String alph = new String("abcdefghijklmnopqrstuvwxyzåäö ");
+    public String alph = new String("abcdefghijklmnopqrstuvwxyzï¿½ï¿½ï¿½ ");
     public char encrypt(char work, boolean workUp, char key, boolean keyUp)
     {
         //System.out.println(""+work+"\n"+workUp+"\n"+key+"\n"+keyUp);
