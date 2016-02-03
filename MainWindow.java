@@ -29,6 +29,23 @@ public class MainWindow extends Application
     private File currentFile;
     private boolean isSaved;
 
+    TextArea inputEn = new TextArea();
+
+
+    TextArea keyWordEn = new TextArea();
+
+
+    TextArea outputEn = new TextArea();
+
+
+    TextArea inputDe = new TextArea();
+
+    TextArea keyWordDe = new TextArea();
+
+    TextArea outputDe = new TextArea();
+
+
+
     @Override
     public void init()
     {
@@ -48,22 +65,11 @@ public class MainWindow extends Application
         //Makes windows -- potentially put in init and declare stuff outside of block?
         primary.setTitle("Vigenere Encrypter-Decrypter");
 
-        TextArea inputEn = new TextArea();
         inputEn.setPromptText("Phrase to be encrypted");
-
-        TextArea keyWordEn = new TextArea();
         keyWordEn.setPromptText("Phrase to encrypt with");
-
-        TextArea outputEn = new TextArea();
         outputEn.setPromptText("Encrypted phrase will appear here.");
-
-        TextArea inputDe = new TextArea();
         inputDe.setPromptText("Phrase to be decrypted");
-
-        TextArea keyWordDe = new TextArea();
         keyWordDe.setPromptText("Prase to decrypt with");
-
-        TextArea outputDe = new TextArea();
         outputDe.setPromptText("Decrypted phrase will appear here.");
 
         outputDe.setEditable(false);
@@ -72,14 +78,14 @@ public class MainWindow extends Application
         Button encrypt = new Button("Encrypt!");
         Button decrypt = new Button("Decrypt!");
         encrypt.setOnAction(e -> {
-            System.out.println(inputEn.getText());
-            System.out.println(keyWordEn.getText());
-            outputEn.setText(Crypto.controller(inputEn.getText(), Crypto.sanitize(keyWordEn.getText()), true)); // Currently tells
+            //System.out.println(inputEn.getText());
+            //System.out.println(keyWordEn.getText());
+            //outputEn.setText(Crypto.controller(inputEn.getText(), Crypto.sanitize(keyWordEn.getText()), true)); // Currently tells
         });
         decrypt.setOnAction(d -> {
-            System.out.println(inputDe.getText());
-            System.out.println(keyWordDe.getText());
-            outputDe.setText(Crypto.controller(inputDe.getText(), Crypto.sanitize(keyWordDe.getText()), false));
+            //System.out.println(inputDe.getText());
+            //System.out.println(keyWordDe.getText());
+            //outputDe.setText(Crypto.controller(inputDe.getText(), Crypto.sanitize(keyWordDe.getText()), false));
         });
 
         //make it pretty
@@ -123,7 +129,7 @@ public class MainWindow extends Application
             selectCurrentFileToOpen();
             readCurrentFile();
             //refreshTitleBar();
-            //TODO: Refresh title bar as program name: file name
+            // TODO: Refresh title bar as program name: file name
         });
         openItemD.setOnAction( e -> {
             selectCurrentFileToOpen();
