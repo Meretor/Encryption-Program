@@ -29,21 +29,15 @@ public class MainWindow extends Application
     private File currentFile;
     private boolean isSaved;
 
-    TextArea inputEn = new TextArea();
+    TextArea input = new TextArea();
 
 
-    TextArea keyWordEn = new TextArea();
+    TextArea keyWord = new TextArea();
 
 
-    TextArea outputEn = new TextArea();
+    TextArea output = new TextArea();
 
-
-    TextArea inputDe = new TextArea();
-
-    TextArea keyWordDe = new TextArea();
-
-    TextArea outputDe = new TextArea();
-
+    private boolean de;
 
 
     @Override
@@ -65,39 +59,31 @@ public class MainWindow extends Application
         //Makes windows -- potentially put in init and declare stuff outside of block?
         primary.setTitle("Vigenere Encrypter-Decrypter");
 
-        inputEn.setPromptText("Phrase to be encrypted");
-        keyWordEn.setPromptText("Phrase to encrypt with");
-        outputEn.setPromptText("Encrypted phrase will appear here.");
-        inputDe.setPromptText("Phrase to be decrypted");
-        keyWordDe.setPromptText("Prase to decrypt with");
-        outputDe.setPromptText("Decrypted phrase will appear here.");
+        input.setPromptText("Phrase to be encrypted");
+        keyWord.setPromptText("Phrase to encrypt with");
+        output.setPromptText("Encrypted phrase will appear here.");
 
-        outputDe.setEditable(false);
-        outputEn.setEditable(false);
+        output.setEditable(false);
 
         Button encrypt = new Button("Encrypt!");
-        Button decrypt = new Button("Decrypt!");
+        //The text on this button will need to change at some point
         encrypt.setOnAction(e -> {
-            //System.out.println(inputEn.getText());
-            //System.out.println(keyWordEn.getText());
-            //outputEn.setText(Crypto.controller(inputEn.getText(), Crypto.sanitize(keyWordEn.getText()), true)); // Currently tells
+            System.out.println(input.getText());
+            System.out.println(keyWord.getText());
+            output.setText(Crypto.controller(input.getText(), Crypto.sanitize(keyWord.getText()), true)); // Currently tells
         });
-        decrypt.setOnAction(d -> {
+        //decrypt.setOnAction(d -> {
             //System.out.println(inputDe.getText());
             //System.out.println(keyWordDe.getText());
             //outputDe.setText(Crypto.controller(inputDe.getText(), Crypto.sanitize(keyWordDe.getText()), false));
-        });
+        //});
 
         //make it pretty
-        HBox row = new HBox();
-        VBox enRow = new VBox();
-        VBox deRow = new VBox();
+        VBox mainColumn = new VBox();
 
-        row.getChildren().addAll(enRow, deRow);
-        enRow.getChildren().addAll(inputEn, keyWordEn, encrypt, outputEn);
-        deRow.getChildren().addAll(inputDe, keyWordDe, decrypt, outputDe);
-
-        Scene a = new Scene(row);
+        mainColumn.getChildren().addAll(input, keyWord, encrypt, output);
+        bp.setCenter(mainColumn);
+        Scene a = new Scene(bp);
 
         primary.setScene(a);
         primary.show();
@@ -106,6 +92,8 @@ public class MainWindow extends Application
     private void createFileMenu()
     {
         Menu fileMenu = new Menu("File");
+
+
         mbar.getMenus().add(fileMenu);
         MenuItem newItemE = new MenuItem("New Encryption");
         MenuItem newItemD = new MenuItem("New Decryption");
@@ -119,11 +107,17 @@ public class MainWindow extends Application
         fileMenu.getItems().addAll(newItemE, newItemD, openItemE, openItemD,
                 saveItemE, saveItemD, saveAsItemE, saveAsItemD, quitItem);
 
-        newItemE.setOnAction( e -> {
-            inputEn.setText("");
+        Menu switchMode = new Menu("Switch Encrypt/Decrypt");
+        mbar.getMenus().add(switchMode);
+
+        switchMode.setOnAction( e -> {
+            de = !de;
+            System.out.println(de);
+            System.out.println("Please");
         });
-        newItemD.setOnAction( e -> {
-            inputDe.setText("");
+
+        newItemE.setOnAction( e -> {
+            input.setText("");
         });
         openItemE.setOnAction( e -> {
             selectCurrentFileToOpen();
@@ -171,7 +165,7 @@ public class MainWindow extends Application
         });
 
         //TODO: This falls on the same problem within writeCurrentFile(). Refer to TODO below.
-        saveAsItem.setOnAction( e -> {
+        saveAsItemE.setOnAction( e -> {
             writeCurrentFile();
         });
 
@@ -188,14 +182,14 @@ public class MainWindow extends Application
                     currentFile));
             //TODO: make it so that if it's writing to an En file vs a De file it's doing it to the correct box.
             //ta (as written below) isn't real btw, it's what you need to switch to inputEn or inputDe.
-            String blob = ta.getText();
+            String blob = input.getText();
             bw.write(blob);
             bw.close();
             isSaved = true;//mark saved
         }
         catch(IOException ex)
         {
-            ta.setText("IO Exception has occurred.  Crap.");
+            //output.setText("IO Exception has occurred.  Crap.");
         }
     }
 
@@ -211,15 +205,15 @@ public class MainWindow extends Application
             {
                 sb.append(buf + "\n");
             }
-            ta.setText(sb.toString());
+            input.setText(sb.toString());
         }
         catch(FileNotFoundException ex)
         {
-            ta.setText(String.format("File %s not found.", currentFile.getAbsolutePath()));
+            input.setText(String.format("File %s not found.", currentFile.getAbsolutePath()));
         }
         catch(IOException ex)
         {
-            ta.setText("IO Exception has occurred.  Crap.");
+            input.setText("IO Exception has occurred.  Crap.");
         }
     }
 
