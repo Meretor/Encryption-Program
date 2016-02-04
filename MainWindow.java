@@ -96,19 +96,17 @@ public class MainWindow extends Application
 
         mbar.getMenus().add(fileMenu);
         mbar.getMenus().add(cypherMenu);
-        MenuItem newItemE = new MenuItem("New Encryption");
-        MenuItem newItemD = new MenuItem("New Decryption");
-        MenuItem openItemE = new MenuItem("Open in Encryption...");
-        MenuItem openItemD = new MenuItem("Open in Decryption...");
-        MenuItem saveItemD = new MenuItem("Save Encryption");
-        MenuItem saveItemE = new MenuItem("Save Decription");
+        MenuItem newItem = new MenuItem("New window");
+        MenuItem openItem = new MenuItem("Open text...");
+        MenuItem saveItem = new MenuItem("Save");
+        MenuItem saveItemAs = new MenuItem("Save As...");
         //we don't need save as...
         MenuItem vigenere = new MenuItem("Vigenere");
         MenuItem fourSquare = new MenuItem("Four Square");
         MenuItem solitair = new MenuItem("Solitaire");
         MenuItem quitItem = new MenuItem("Quit");
-        fileMenu.getItems().addAll(newItemE, newItemD, openItemE, openItemD,
-                saveItemE, saveItemD, quitItem);
+        fileMenu.getItems().addAll(newItem, openItem,
+                saveItemAs, saveItem, quitItem);
         cypherMenu.getItems().addAll(vigenere,fourSquare, solitair);
 
         Menu switchMode = new Menu("Switch to Decrypt");
@@ -128,20 +126,20 @@ public class MainWindow extends Application
             System.out.println(de);
         });
 
-        newItemE.setOnAction( e -> {
+        newItem.setOnAction( e -> {
             //TODO: Start another instance of the application
         });
-        openItemE.setOnAction( e -> {
+        openItem.setOnAction( e -> {
             selectCurrentFileToOpen();
             readCurrentFile();
             //refreshTitleBar();
             // TODO: Refresh title bar as program name: file name
         });
-        openItemD.setOnAction( e -> {
+        openItem.setOnAction( e -> {
             selectCurrentFileToOpen();
             readCurrentFile();
         });
-        saveItemE.setOnAction( e -> {
+        saveItemAs.setOnAction( e -> {
             if(currentFile != null)
             {
                 writeCurrentFile();
@@ -158,7 +156,7 @@ public class MainWindow extends Application
             }
 
         });
-        saveItemD.setOnAction( e -> {
+        saveItem.setOnAction( e -> {
             if(currentFile != null)
             {
                 writeCurrentFile();
