@@ -7,6 +7,8 @@ public class FourSquare
     static int width;
     static int height;
     static int l;
+    static String encOne; // Top-left encrypted string
+    static String encTwo; // Bottom-right encrypted string
     public static void getSize()
     {
         facts = new ArrayList<>();
@@ -32,7 +34,29 @@ public class FourSquare
         }
         System.out.println(""+width+height+l+facts);
     }
-    public void controller()
+    public static void shuffle() //creates encrypted strings
     {
+        ArrayList<Character> temp = new ArrayList<>();
+        for (int i = 0; i < Vigenere.alph.length(); i++)
+        {
+            temp.add(Vigenere.alph.charAt(i));
+        }
+        System.out.println(temp);
+        Collections.shuffle(temp);
+        StringBuffer buff = new StringBuffer();
+        for (int i = 0; i < temp.size(); i++)
+        {
+            buff.append(temp.get(i));
+        }
+        Collections.shuffle(temp);
+        StringBuffer guff = new StringBuffer();
+        for (int i = 0; i < temp.size(); i++)
+        {
+            guff.append(temp.get(i));
+        }
+        encOne = buff.toString();
+        encTwo = guff.toString();
+        System.out.println(encOne);
+        System.out.println(encTwo);
     }
 }
