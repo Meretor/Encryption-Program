@@ -30,14 +30,11 @@ public class MainWindow extends Application
     private boolean isSaved;
 
     TextArea input = new TextArea();
-
-
     TextArea keyWord = new TextArea();
-
-
     TextArea output = new TextArea();
 
     private boolean de;
+    private Class<? extends Application> anotherAppClass;
 
 
     @Override
@@ -112,7 +109,7 @@ public class MainWindow extends Application
                 saveItemE, saveItemD, quitItem);
         cypherMenu.getItems().addAll(vigenere,fourSquare, solitair);
 
-        Menu switchMode = new Menu("Switch Encrypt/Decrypt");
+        Menu switchMode = new Menu("Switch to Decrypt");
         mbar.getMenus().add(switchMode);
 
         switchMode.setOnAction( e -> {
@@ -122,7 +119,7 @@ public class MainWindow extends Application
         });
 
         newItemE.setOnAction( e -> {
-            input.setText("");
+            //TODO: Start another instance of the application
         });
         openItemE.setOnAction( e -> {
             selectCurrentFileToOpen();
@@ -179,6 +176,14 @@ public class MainWindow extends Application
         });
     }
 
+    //thought this would work...can't quite figure out how to make it work...
+    public void runAnotherApp() throws Exception
+    {
+        //this.anotherAppClass = anotherAppClass;
+        Application app2 = anotherAppClass.newInstance();
+        Stage anotherStage = new Stage();
+        app2.start(anotherStage);
+    }
     private void writeCurrentFile()
     {
         try
