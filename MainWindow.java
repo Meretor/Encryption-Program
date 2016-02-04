@@ -22,7 +22,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-
+//popup stuff
+import javafx.stage.Popup;
+import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 public class MainWindow extends Application
 {
     private Stage primary;
@@ -30,6 +34,7 @@ public class MainWindow extends Application
     private BorderPane bp;
     private File currentFile;
     private boolean isSaved;
+    public Popup warning;
 
     TextArea input = new TextArea();
     TextArea keyWord = new TextArea();
@@ -64,6 +69,22 @@ public class MainWindow extends Application
 
         output.setEditable(false);
 
+
+
+        final Popup popup = new Popup(); popup.setX(300); popup.setY(200);
+        popup.getContent().addAll(new Circle(25, 25, 50, Color.PALEGREEN));
+
+////////////
+        Button show = new Button("Show");
+        show.setOnAction(event -> {
+                popup.show(primary);
+        });
+////////////
+
+
+
+
+
         Button encrypt = new Button("Encrypt!");
         //The text on this button will need to change at some point
         encrypt.setOnAction(e -> {
@@ -77,12 +98,14 @@ public class MainWindow extends Application
             //outputDe.setText(Crypto.controller(inputDe.getText(), Crypto.sanitize(keyWordDe.getText()), false));
         //});
 
+        //TODO: If Encrypt button is clicked AND text in key =< 5 characters in length, then run keyShortWarning.
+
         //make it pretty
         VBox mainColumn = new VBox();
 
-        mainColumn.getChildren().addAll(input, keyWord, encrypt, output);
+        mainColumn.getChildren().addAll(input, keyWord, encrypt, output, show);
         bp.setCenter(mainColumn);
-        Scene a = new Scene(bp);
+        Scene a = new Scene(bp, 500, 595);
 
         primary.setScene(a);
         primary.show();
