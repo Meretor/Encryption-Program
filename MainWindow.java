@@ -1,3 +1,5 @@
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.scene.control.Button;
@@ -110,12 +112,20 @@ public class MainWindow extends Application
         cypherMenu.getItems().addAll(vigenere,fourSquare, solitair);
 
         Menu switchMode = new Menu("Switch to Decrypt");
+        MenuItem switchBack = new MenuItem("Switch back");
+        switchMode.getItems().add(switchBack);
         mbar.getMenus().add(switchMode);
 
-        switchMode.setOnAction( e -> {
+        //https://community.oracle.com/thread/2398419?tstart=0
+        switchMode.showingProperty().addListener((observableValue, oldValue, newValue) -> {
+            if(newValue.booleanValue()) {
+                de = !de;
+                System.out.println(de);
+            }
+        });
+        switchBack.setOnAction( e -> {
             de = !de;
             System.out.println(de);
-            System.out.println("Please");
         });
 
         newItemE.setOnAction( e -> {
