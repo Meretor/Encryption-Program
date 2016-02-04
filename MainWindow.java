@@ -1,5 +1,3 @@
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.scene.control.Button;
@@ -88,7 +86,7 @@ public class MainWindow extends Application
         //TODO: If Encrypt button is clicked AND text in key =< 5 characters in length, then run keyShortWarning.
 
         //live editing instead of encrypt button
-        input.setOnKeyTyped(e -> {
+        input.setOnKeyReleased(e -> {
             System.out.println(input.getText());
             System.out.println(keyWord.getText());
             output.setText(Crypto.controller(input.getText(), Crypto.sanitize(keyWord.getText()), true));
@@ -103,6 +101,17 @@ public class MainWindow extends Application
 
         primary.setScene(a);
         primary.show();
+    }
+
+    private void switchMode(){
+        de = !de;
+        String tempDecrpyed;
+        String tempEncryped;
+        if (de){
+            input.setOnKeyReleased(e -> {
+                output.setText(Crypto.controller(input.getText(), Crypto.sanitize(keyWord.getText()), true));
+            });
+        }
     }
 
     private void createFileMenu()
@@ -134,13 +143,11 @@ public class MainWindow extends Application
         //https://community.oracle.com/thread/2398419?tstart=0
         switchMode.showingProperty().addListener((observableValue, oldValue, newValue) -> {
             if(newValue.booleanValue()) {
-                de = !de;
-                System.out.println(de);
+                switchMode();
             }
         });
         switchBack.setOnAction( e -> {
-            de = !de;
-            System.out.println(de);
+            switchMode();
         });
 
         newItem.setOnAction( e -> {
