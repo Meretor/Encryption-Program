@@ -57,7 +57,7 @@ public class MainWindow extends Application
         //createOptionsMenu();
 
         //Makes windows -- potentially put in init and declare stuff outside of block?
-        primary.setTitle("Vigenere Encrypter-Decrypter");
+        primary.setTitle("Encrypter-Decrypter");
 
         input.setPromptText("Phrase to be encrypted");
         keyWord.setPromptText("Phrase to encrypt with");
@@ -92,20 +92,25 @@ public class MainWindow extends Application
     private void createFileMenu()
     {
         Menu fileMenu = new Menu("File");
+        Menu cypherMenu = new Menu("Cypher Type");
 
 
         mbar.getMenus().add(fileMenu);
+        mbar.getMenus().add(cypherMenu);
         MenuItem newItemE = new MenuItem("New Encryption");
         MenuItem newItemD = new MenuItem("New Decryption");
         MenuItem openItemE = new MenuItem("Open in Encryption...");
         MenuItem openItemD = new MenuItem("Open in Decryption...");
         MenuItem saveItemD = new MenuItem("Save Encryption");
         MenuItem saveItemE = new MenuItem("Save Decription");
-        MenuItem saveAsItemD = new MenuItem("Save Decryption As...");
-        MenuItem saveAsItemE = new MenuItem("Save Encryption As...");
+        //we don't need save as...
+        MenuItem vigenere = new MenuItem("Vigenere");
+        MenuItem fourSquare = new MenuItem("Four Square");
+        MenuItem solitair = new MenuItem("Solitaire");
         MenuItem quitItem = new MenuItem("Quit");
         fileMenu.getItems().addAll(newItemE, newItemD, openItemE, openItemD,
-                saveItemE, saveItemD, saveAsItemE, saveAsItemD, quitItem);
+                saveItemE, saveItemD, quitItem);
+        cypherMenu.getItems().addAll(vigenere,fourSquare, solitair);
 
         Menu switchMode = new Menu("Switch Encrypt/Decrypt");
         mbar.getMenus().add(switchMode);
@@ -165,9 +170,9 @@ public class MainWindow extends Application
         });
 
         //TODO: This falls on the same problem within writeCurrentFile(). Refer to TODO below.
-        saveAsItemE.setOnAction( e -> {
-            writeCurrentFile();
-        });
+        //saveAsItemE.setOnAction( e -> {
+        //    writeCurrentFile();
+        //});
 
         quitItem.setOnAction( e -> {
             Platform.exit();
