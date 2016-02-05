@@ -11,64 +11,43 @@ public class Vigenere {
         }
     }
     */
-    public static String alph = new String("abcdefghijklmnopqrstuvwxyzåäö "); 
-    public static char encrypt(char work, boolean workUp, char key) //Encrypts using Vigenere Cipher
+    private static char encrypt(char work, boolean workUp, char key) //Encrypts using Vigenere Cipher
     {
         //System.out.println(""+work+"\n"+workUp+"\n"+key+"\n"+keyUp);
-        int getChar = alph.indexOf(Character.toLowerCase(work)) + alph.indexOf(Character.toLowerCase(key));
+        int getChar = Common.alph.indexOf(Character.toLowerCase(work)) + Common.alph.indexOf(Character.toLowerCase(key));
         //System.out.println(getChar);
-        if (getChar >= alph.length())
+        if (getChar >= Common.alph.length())
         {
-            getChar -= alph.length();
+            getChar -= Common.alph.length();
         }
         /*System.out.println(""+work+"\n"+workUp+"\n"+key+"\n"+keyUp);
         System.out.println(getChar);
         System.out.println(alph.charAt(getChar));*/
         if (! workUp) //
         {
-            return alph.charAt(getChar);
+            return Common.alph.charAt(getChar);
         }
-        return Character.toUpperCase(alph.charAt(getChar));
+        return Character.toUpperCase(Common.alph.charAt(getChar));
     }
-    public static char decrypt(char work, boolean workUp, char key) //Decrypts using Vigenere Cipher
+    private static char decrypt(char work, boolean workUp, char key) //Decrypts using Vigenere Cipher
     {
         //System.out.println(""+work+"\n"+workUp+"\n"+key+"\n"+keyUp);
-        int getChar = alph.indexOf(Character.toLowerCase(work)) - alph.indexOf(Character.toLowerCase(key));
+        int getChar = Common.alph.indexOf(Character.toLowerCase(work)) - Common.alph.indexOf(Character.toLowerCase(key));
         //System.out.println(getChar);
         if (getChar < 0)
         {
-            getChar += alph.length();
+            getChar += Common.alph.length();
         }
         /*System.out.println(""+work+"\n"+workUp+"\n"+key+"\n"+keyUp);
         System.out.println(getChar);
         System.out.println(alph.charAt(getChar));*/
         if (! workUp)
         {
-            return alph.charAt(getChar);
+            return Common.alph.charAt(getChar);
         }
-        return Character.toUpperCase(alph.charAt(getChar));
+        return Character.toUpperCase(Common.alph.charAt(getChar));
     }
-    /*
-     * Function used to remove any characters not within the alph string - without this, the program would have characters it doesn't
-     * know what to do with. This is mainly used with keys in Vigenere, as anything that doesn't have meaning to the program will only get
-     * in the way in that case. In the case of the plaintext, however, removing characters may remove character -- thus, don't use this
-     *on plaintext, only keys!
-     */
-    public static String sanitize(String keyIn)
-    {
-        StringBuffer out = new StringBuffer();
-        StringBuffer checKey = new StringBuffer();
-        for ( int i = 0; i < keyIn.length(); i++)
-        {
-            checKey.append(Character.toLowerCase(keyIn.charAt(i)));
-            if (alph.contains(checKey))
-            {
-                out.append(checKey);
-            }
-            checKey.deleteCharAt(0);
-        }
-        return new String(out);
-    }
+    
     /*
      * Controller function for Vigenere - The work is the plaintext, key is the key. Choice used to determine
      * whether the program should encrypt / decrypt. true = encrypt, false = decrypt.
@@ -85,7 +64,7 @@ public class Vigenere {
             checking.append(Character.toLowerCase(work.charAt(i))); //used to check if the character is in the Alph string
             //System.out.println(i);
 
-            if (! alph.contains(checking))
+            if (! Common.alph.contains(checking))
             {
                 out.append(work.charAt(i)); //Spits out the character if not in alph string.
             }
