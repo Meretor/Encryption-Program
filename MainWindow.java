@@ -71,12 +71,13 @@ public class MainWindow extends Application
 
 
         final Popup popup = new Popup(); popup.setX(300); popup.setY(200);
-        popup.getContent().addAll(new Circle(25, 25, 50, Color.PALEGREEN));
+        popup.getContent().addAll(new Circle(359, 315, 8, Color.PALEGREEN));
+        popup.getContent().addAll(new Text(375, 320, "Encryption Safe"));
 
-////////////
+//////////// delete this when you add in the "if key is x long"
         Button show = new Button("Show");
         show.setOnAction(event -> {
-                popup.show(primary);
+            popup.show(primary);
         });
 ////////////
 
