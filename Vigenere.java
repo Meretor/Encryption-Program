@@ -11,12 +11,10 @@ public class Vigenere {
         }
     }
     */
-<<<<<<< HEAD
-    private static char encrypt(char work, boolean workUp, char key) //Encrypts using Vigenere Cipher
-=======
-    public static String alph = new String("abcdefghijklmnopqrstuvwxyz��� "); 
+
+    public static String alph = new String("abcdefghijklmnopqrstuvwxyz��� ");
     public static char encrypt(char work, boolean workUp, char key) //Encrypts using Vigenere Cipher
->>>>>>> 2c561a535dfff009e8e11d37dcfe1cfc614f15b3
+
     {
         //System.out.println(""+work+"\n"+workUp+"\n"+key+"\n"+keyUp);
         int getChar = Common.alph.indexOf(Character.toLowerCase(work)) + Common.alph.indexOf(Character.toLowerCase(key));
