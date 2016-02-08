@@ -11,7 +11,7 @@ public class Vigenere {
         }
     }
     */
-    public static String alph = new String("abcdefghijklmnopqrstuvwxyzåäö "); 
+    public static String alph = new String("abcdefghijklmnopqrstuvwxyzï¿½ï¿½ï¿½ "); 
     public static char encrypt(char work, boolean workUp, char key) //Encrypts using Vigenere Cipher
     {
         //System.out.println(""+work+"\n"+workUp+"\n"+key+"\n"+keyUp);
@@ -93,11 +93,11 @@ public class Vigenere {
             {
                 if (choice)
                 {
-                    out.append(Crypto.encrypt(work.charAt(i), Character.isUpperCase(work.charAt(i)), key.charAt(keyPup))); //Encrypts
+                    out.append(Vigenere.encrypt(work.charAt(i), Character.isUpperCase(work.charAt(i)), key.charAt(keyPup))); //Encrypts
                 }
                 else
                 {
-                    out.append(Crypto.decrypt(work.charAt(i), Character.isUpperCase(work.charAt(i)), key.charAt(keyPup))); //Decrypts
+                    out.append(Vigenere.decrypt(work.charAt(i), Character.isUpperCase(work.charAt(i)), key.charAt(keyPup))); //Decrypts
                 }
                 keyPup +=1; //Increments key pos
             }

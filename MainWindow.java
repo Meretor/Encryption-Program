@@ -88,11 +88,11 @@ public class MainWindow extends Application
 
         //live editing instead of encrypt button
         input.setOnKeyReleased(e -> {
-            output.setText(Crypto.controller(input.getText(), Crypto.sanitize(keyWord.getText()), true));
+            output.setText(Vigenere.controller(input.getText(), Vigenere.sanitize(keyWord.getText()), true));
         });
 
         keyWord.setOnKeyReleased(e -> {
-            output.setText(Crypto.controller(input.getText(), Crypto.sanitize(keyWord.getText()), true));
+            output.setText(Vigenere.controller(input.getText(), Vigenere.sanitize(keyWord.getText()), true));
         });
 
         //make it pretty
@@ -117,18 +117,18 @@ public class MainWindow extends Application
 
         if (de){
             input.setOnKeyReleased(e -> {
-                output.setText(Crypto.controller(input.getText(), Crypto.sanitize(keyWord.getText()), true));
+                output.setText(Vigenere.controller(input.getText(), Vigenere.sanitize(keyWord.getText()), true));
             });
             keyWord.setOnKeyReleased(e -> {
-                output.setText(Crypto.controller(input.getText(), Crypto.sanitize(keyWord.getText()), true));
+                output.setText(Vigenere.controller(input.getText(), Vigenere.sanitize(keyWord.getText()), true));
             });
             switchMode.setText("Switch to Decrypt");
         }else{
             input.setOnKeyReleased(e -> {
-                output.setText(Crypto.controller(input.getText(), Crypto.sanitize(keyWord.getText()), false));
+                output.setText(Vigenere.controller(input.getText(), Vigenere.sanitize(keyWord.getText()), false));
             });
             keyWord.setOnKeyReleased(e -> {
-                output.setText(Crypto.controller(input.getText(), Crypto.sanitize(keyWord.getText()), false));
+                output.setText(Vigenere.controller(input.getText(), Vigenere.sanitize(keyWord.getText()), false));
             });
             switchMode.setText("Switch to Encrypt");
         }
