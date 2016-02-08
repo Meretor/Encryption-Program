@@ -1,5 +1,3 @@
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.stage.Stage;
 import javafx.application.Application;
 import javafx.scene.control.Button;
@@ -22,7 +20,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-
+//popup stuff
+import javafx.stage.Popup;
+import javafx.scene.text.Text;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 public class MainWindow extends Application
 {
     private Stage primary;
@@ -30,6 +32,8 @@ public class MainWindow extends Application
     private BorderPane bp;
     private File currentFile;
     private boolean isSaved;
+    public Popup warning;
+    private Menu switchMode = new Menu("Switch to Decrypt");
 
     TextArea input = new TextArea();
     TextArea keyWord = new TextArea();
@@ -64,28 +68,72 @@ public class MainWindow extends Application
 
         output.setEditable(false);
 
-        Button encrypt = new Button("Encrypt!");
-        //The text on this button will need to change at some point
-        encrypt.setOnAction(e -> {
-            System.out.println(input.getText());
-            System.out.println(keyWord.getText());
-            output.setText(Crypto.controller(input.getText(), Crypto.sanitize(keyWord.getText()), true)); // Currently tells
+
+
+        final Popup popup = new Popup(); popup.setX(300); popup.setY(200);
+        popup.getContent().addAll(new Circle(25, 25, 50, Color.PALEGREEN));
+
+////////////
+        Button show = new Button("Show");
+        show.setOnAction(event -> {
+                popup.show(primary);
         });
-        //decrypt.setOnAction(d -> {
-            //System.out.println(inputDe.getText());
-            //System.out.println(keyWordDe.getText());
-            //outputDe.setText(Crypto.controller(inputDe.getText(), Crypto.sanitize(keyWordDe.getText()), false));
-        //});
+////////////
+
+
+
+
+
+        //TODO: If Encrypt button is clicked AND text in key =< 5 characters in length, then run keyShortWarning.
+
+        //live editing instead of encrypt button
+        input.setOnKeyReleased(e -> {
+            output.setText(Vigenere.controller(input.getText(), Vigenere.sanitize(keyWord.getText()), true));
+        });
+
+        keyWord.setOnKeyReleased(e -> {
+            output.setText(Vigenere.controller(input.getText(), Vigenere.sanitize(keyWord.getText()), true));
+        });
 
         //make it pretty
         VBox mainColumn = new VBox();
 
-        mainColumn.getChildren().addAll(input, keyWord, encrypt, output);
+        mainColumn.getChildren().addAll(input, keyWord, output, show);
         bp.setCenter(mainColumn);
-        Scene a = new Scene(bp);
+        Scene a = new Scene(bp, 500, 595);
 
         primary.setScene(a);
         primary.show();
+    }
+
+    private void switchMode(){
+        de = !de;
+        String tempInput;
+        String tempOutput;
+        tempInput = input.getText();
+        tempOutput = output.getText();
+        output.setText(tempInput);
+        input.setText(tempOutput);
+
+        if (de){
+            input.setOnKeyReleased(e -> {
+                output.setText(Vigenere.controller(input.getText(), Vigenere.sanitize(keyWord.getText()), true));
+            });
+            keyWord.setOnKeyReleased(e -> {
+                output.setText(Vigenere.controller(input.getText(), Vigenere.sanitize(keyWord.getText()), true));
+            });
+            switchMode.setText("Switch to Decrypt");
+        }else{
+            input.setOnKeyReleased(e -> {
+                output.setText(Vigenere.controller(input.getText(), Vigenere.sanitize(keyWord.getText()), false));
+            });
+            keyWord.setOnKeyReleased(e -> {
+                output.setText(Vigenere.controller(input.getText(), Vigenere.sanitize(keyWord.getText()), false));
+            });
+            switchMode.setText("Switch to Encrypt");
+        }
+
+
     }
 
     private void createFileMenu()
@@ -109,7 +157,6 @@ public class MainWindow extends Application
                 saveItemAs, saveItem, quitItem);
         cypherMenu.getItems().addAll(vigenere,fourSquare, solitair);
 
-        Menu switchMode = new Menu("Switch to Decrypt");
         MenuItem switchBack = new MenuItem("Switch back");
         switchMode.getItems().add(switchBack);
         mbar.getMenus().add(switchMode);
@@ -117,13 +164,11 @@ public class MainWindow extends Application
         //https://community.oracle.com/thread/2398419?tstart=0
         switchMode.showingProperty().addListener((observableValue, oldValue, newValue) -> {
             if(newValue.booleanValue()) {
-                de = !de;
-                System.out.println(de);
+                switchMode();
             }
         });
         switchBack.setOnAction( e -> {
-            de = !de;
-            System.out.println(de);
+            switchMode();
         });
 
         newItem.setOnAction( e -> {
@@ -199,15 +244,14 @@ public class MainWindow extends Application
             BufferedWriter bw = new BufferedWriter(new FileWriter(
                     currentFile));
             //TODO: make it so that if it's writing to an En file vs a De file it's doing it to the correct box.
-            //ta (as written below) isn't real btw, it's what you need to switch to inputEn or inputDe.
-            String blob = input.getText();
+            String blob = output.getText();
             bw.write(blob);
             bw.close();
             isSaved = true;//mark saved
         }
         catch(IOException ex)
         {
-            //output.setText("IO Exception has occurred.  Crap.");
+            output.setText("IO Exception has occurred.  Crap.");
         }
     }
 
