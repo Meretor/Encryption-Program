@@ -29,7 +29,7 @@ import javafx.scene.shape.Circle;
 
 public class MainWindow extends Application
 {
-    private Stage primary;
+    private Stage secondary;
     private MenuBar mbar;
     private BorderPane bp;
     private File currentFile;
@@ -149,7 +149,9 @@ public class MainWindow extends Application
         primary.show();
         //shortKeyWarning();
     }
+    private void switchCipher(){
 
+    }
 
 
     private void switchMode(){
@@ -196,7 +198,7 @@ public class MainWindow extends Application
         mbar.getMenus().add(cypherMenu);
         MenuItem newItem = new MenuItem("New window");
         MenuItem openItem = new MenuItem("Open text...");
-        MenuItem saveItem = new MenuItem("Save");
+        MenuItem saveItem = new MenuItem("Save Encryped");
         MenuItem saveItemAs = new MenuItem("Save As...");
         //we don't need save as...
         MenuItem vigenere = new MenuItem("Vigenere");
@@ -204,7 +206,7 @@ public class MainWindow extends Application
         MenuItem solitair = new MenuItem("Solitaire");
         MenuItem quitItem = new MenuItem("Quit");
         fileMenu.getItems().addAll(newItem, openItem,
-                saveItemAs, saveItem, quitItem);
+                 saveItem, saveItemAs, quitItem);
         cypherMenu.getItems().addAll(vigenere,fourSquare, solitair);
 
 
@@ -318,7 +320,7 @@ public class MainWindow extends Application
     {
         //return false if user cancels and true if he does not.
         FileChooser fc = new FileChooser();
-        File choice = fc.showOpenDialog(primary);
+        File choice = fc.showOpenDialog(secondary);
         if(choice == null)
         {
             return false;
@@ -331,7 +333,7 @@ public class MainWindow extends Application
     {
         //return false if user cancels and true if he does not.
         FileChooser fc = new FileChooser();
-        File choice = fc.showSaveDialog(primary);
+        File choice = fc.showSaveDialog(secondary);
         if(choice == null)
         {
             return false;
