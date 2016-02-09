@@ -20,11 +20,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import java.util.logging.Handler;
 //popup stuff
 import javafx.stage.Popup;
 import javafx.scene.text.Text;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+
 public class MainWindow extends Application
 {
     private Stage primary;
@@ -33,7 +35,8 @@ public class MainWindow extends Application
     private File currentFile;
     private boolean isSaved;
     public Popup warning;
-    private Menu switchMode = new Menu("Switch to Decrypt");
+    public Handler bleh;
+    //private Menu switchMode = new Menu("Switch to Decrypt");
 
     TextArea input = new TextArea();
     TextArea keyWord = new TextArea();
@@ -57,55 +60,93 @@ public class MainWindow extends Application
         //making menubar
         bp.setTop(mbar);
         createFileMenu();
-        //createOptionsMenu();
 
         //Makes windows -- potentially put in init and declare stuff outside of block?
         primary.setTitle("Encrypter-Decrypter");
-
         input.setPromptText("Phrase to be encrypted");
         keyWord.setPromptText("Phrase to encrypt with");
         output.setPromptText("Encrypted phrase will appear here.");
-
         output.setEditable(false);
 
 
+///////////// ISSUE WARNING
 
-        final Popup popup = new Popup(); popup.setX(300); popup.setY(200);
-        popup.getContent().addAll(new Circle(359, 315, 8, Color.PALEGREEN));
-        popup.getContent().addAll(new Text(375, 320, "Encryption Safe"));
+        Popup fuck = new Popup();
+        fuck.setX(300);
+        fuck.setY(200);
+        fuck.getContent().addAll(new Text(300, 100, "HIT ESC TO CLOSE POPUPS"));
+
+        //fuck.show(primary);
+        fuck.isAutoHide();
+
+///////////// POPUP STUFF
+        Popup popup = new Popup();
+        popup.setX(300);
+        popup.setY(200);
+        popup.getContent().addAll(new Circle(359, 315, 8, Color.RED));
+        popup.getContent().addAll(new Text(375, 320, "Encryption NOT Safe"));
+        //popup.show(primary,300,200);
+        //popup.isShowing();
+        popup.isAutoHide();
+        //popup.autoHideProperty();
+
+
+       // input.setOnKeyPressed(e -> {if(input.getLength() < 1 ) {(fuck.show(primary);)}});
+        input.setOnKeyPressed(e -> {if(input.getLength() < 1) {fuck.show(primary);}});
+        keyWord.setOnKeyPressed(e -> {if(keyWord.getLength() < 5) {popup.show(primary);}});
 
 //////////// delete this when you add in the "if key is x long"
         Button show = new Button("Show");
         show.setOnAction(event -> {
             popup.show(primary);
         });
-////////////
+//////////// BUTTONS IN MIDDLE HBOX AROUND POPUP
 
-
-
-
-
-        //TODO: If Encrypt button is clicked AND text in key =< 5 characters in length, then run keyShortWarning.
-
-        //live editing instead of encrypt button
-        input.setOnKeyReleased(e -> {
-            output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), true));
+        Button encrypt = new Button("Encrypt!");
+        //The text on this button will need to change at some point
+        encrypt.setOnAction(e -> {
+            System.out.println(input.getText());
+            System.out.println(keyWord.getText());
+            output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), true)); // Currently tells
         });
 
-        keyWord.setOnKeyReleased(e -> {
-            output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), true));
+
+        Button decrypt = new Button("Decrypt");
+        decrypt.setOnAction(d -> {
+            System.out.println(input.getText());
+            System.out.println(keyWord.getText());
+            output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), false));
         });
+
+//////////// LIVE EDITING
+
+        //TODO: If at any time text in key Text Area =< 5 characters in length, then run keyShortWarning.
+
+//        input.setOnKeyReleased(e -> {
+//            output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), de));
+//        });
+//
+//        keyWord.setOnKeyReleased(e -> {
+//            output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), de));
+//        });
 
         //make it pretty
         VBox mainColumn = new VBox();
+        HBox buttonColumn = new HBox();
 
-        mainColumn.getChildren().addAll(input, keyWord, output, show);
         bp.setCenter(mainColumn);
         Scene a = new Scene(bp, 500, 595);
+        buttonColumn.setSpacing(363);
+        buttonColumn.getChildren().addAll(encrypt, decrypt);
+        mainColumn.getChildren().addAll(input, keyWord, buttonColumn, output, show);
+        bp.setCenter(mainColumn);
 
         primary.setScene(a);
         primary.show();
+        //shortKeyWarning();
     }
+
+    /*
 
     private void switchMode(){
         de = !de;
@@ -136,6 +177,19 @@ public class MainWindow extends Application
 
 
     }
+    */
+
+    private void shortKeyWarning()
+    {
+        Popup popup = new Popup();
+        popup.setX(300);
+        popup.setY(200);
+        popup.getContent().addAll(new Circle(359, 315, 8, Color.RED));
+        popup.getContent().addAll(new Text(375, 320, "Encryption NOT Safe"));
+        //popup.show(primary,300,200);
+        //popup.isShowing();
+        //popup.isAutoHide();
+    }
 
     private void createFileMenu()
     {
@@ -158,7 +212,7 @@ public class MainWindow extends Application
                 saveItemAs, saveItem, quitItem);
         cypherMenu.getItems().addAll(vigenere,fourSquare, solitair);
 
-        MenuItem switchBack = new MenuItem("Switch back");
+        /*MenuItem switchBack = new MenuItem("Switch back");
         switchMode.getItems().add(switchBack);
         mbar.getMenus().add(switchMode);
 
@@ -171,20 +225,25 @@ public class MainWindow extends Application
         switchBack.setOnAction( e -> {
             switchMode();
         });
+*/
+
 
         newItem.setOnAction( e -> {
             //TODO: Start another instance of the application
         });
+
         openItem.setOnAction( e -> {
             selectCurrentFileToOpen();
             readCurrentFile();
             //refreshTitleBar();
             // TODO: Refresh title bar as program name: file name
         });
+
         openItem.setOnAction( e -> {
             selectCurrentFileToOpen();
             readCurrentFile();
         });
+
         saveItemAs.setOnAction( e -> {
             if(currentFile != null)
             {
@@ -220,17 +279,11 @@ public class MainWindow extends Application
 
         });
 
-        //TODO: This falls on the same problem within writeCurrentFile(). Refer to TODO below.
-        //saveAsItemE.setOnAction( e -> {
-        //    writeCurrentFile();
-        //});
-
         quitItem.setOnAction( e -> {
             Platform.exit();
         });
     }
-
-    //thought this would work...can't quite figure out how to make it work...
+///////////// RUN ANOTHER INSTANCE OF APPLICATION - DOESN'T WORK YET
     public void runAnotherApp() throws Exception
     {
         //this.anotherAppClass = anotherAppClass;
@@ -238,6 +291,7 @@ public class MainWindow extends Application
         Stage anotherStage = new Stage();
         app2.start(anotherStage);
     }
+
     private void writeCurrentFile()
     {
         try
