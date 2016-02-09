@@ -70,9 +70,31 @@ public class MainWindow extends Application
 
 
 
-        final Popup popup = new Popup(); popup.setX(300); popup.setY(200);
-        popup.getContent().addAll(new Circle(359, 315, 8, Color.PALEGREEN));
-        popup.getContent().addAll(new Text(375, 320, "Encryption Safe"));
+///////////// ISSUE WARNING
+
+        Popup fuck = new Popup();
+        fuck.setX(300);
+        fuck.setY(200);
+        fuck.getContent().addAll(new Text(300, 100, "HIT ESC TO CLOSE POPUPS"));
+
+        //fuck.show(primary);
+        fuck.isAutoHide();
+
+///////////// POPUP STUFF
+        Popup popup = new Popup();
+        popup.setX(300);
+        popup.setY(200);
+        popup.getContent().addAll(new Circle(359, 315, 8, Color.RED));
+        popup.getContent().addAll(new Text(375, 320, "Encryption NOT Safe"));
+        //popup.show(primary,300,200);
+        //popup.isShowing();
+        popup.isAutoHide();
+        //popup.autoHideProperty();
+
+
+        // input.setOnKeyPressed(e -> {if(input.getLength() < 1 ) {(fuck.show(primary);)}});
+        input.setOnKeyPressed(e -> {if(input.getLength() < 1) {fuck.show(primary);}});
+        keyWord.setOnKeyPressed(e -> {if(keyWord.getLength() < 5) {popup.show(primary);}});
 
 //////////// delete this when you add in the "if key is x long"
         Button show = new Button("Show");
