@@ -36,13 +36,17 @@ public class MainWindow extends Application
     private boolean isSaved;
     public Popup warning;
     public Handler bleh;
-    //private Menu switchMode = new Menu("Switch to Decrypt");
+
+    private Button encrypt = new Button("Encrypt");
+    private Button decrypt = new Button("Decrypt");
+
+
 
     TextArea input = new TextArea();
     TextArea keyWord = new TextArea();
     TextArea output = new TextArea();
 
-    private boolean de;
+    private static boolean de;
     private Class<? extends Application> anotherAppClass;
 
 
@@ -101,34 +105,34 @@ public class MainWindow extends Application
             popup.show(primary);
         });
 //////////// BUTTONS IN MIDDLE HBOX AROUND POPUP
+        //Calling switchMode will set the colors
+        de = true;
+        switchMode();
 
-        Button encrypt = new Button("Encrypt!");
-        //The text on this button will need to change at some point
+
         encrypt.setOnAction(e -> {
-            System.out.println(input.getText());
-            System.out.println(keyWord.getText());
-            output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), true)); // Currently tells
+            if (de){
+                switchMode();
+            }
         });
 
 
-        Button decrypt = new Button("Decrypt");
         decrypt.setOnAction(d -> {
-            System.out.println(input.getText());
-            System.out.println(keyWord.getText());
-            output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), false));
+            if (!de){
+                switchMode();
+            }
         });
 
 //////////// LIVE EDITING
 
         //TODO: If at any time text in key Text Area =< 5 characters in length, then run keyShortWarning.
 
-//        input.setOnKeyReleased(e -> {
-//            output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), de));
-//        });
-//
-//        keyWord.setOnKeyReleased(e -> {
-//            output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), de));
-//        });
+        input.setOnKeyReleased(e -> {
+            System.out.print(de);
+            output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de));
+        });
+
+        keyWord.setOnKeyReleased(e -> output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de)));
 
         //make it pretty
         VBox mainColumn = new VBox();
@@ -146,7 +150,7 @@ public class MainWindow extends Application
         //shortKeyWarning();
     }
 
-    /*
+
 
     private void switchMode(){
         de = !de;
@@ -158,26 +162,17 @@ public class MainWindow extends Application
         input.setText(tempOutput);
 
         if (de){
-            input.setOnKeyReleased(e -> {
-                output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), true));
-            });
-            keyWord.setOnKeyReleased(e -> {
-                output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), true));
-            });
-            switchMode.setText("Switch to Decrypt");
+            decrypt.setStyle("-fx-base: #00FF00;");
+            encrypt.setStyle("-fx-base: #FF0000;");
+
         }else{
-            input.setOnKeyReleased(e -> {
-                output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), false));
-            });
-            keyWord.setOnKeyReleased(e -> {
-                output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), false));
-            });
-            switchMode.setText("Switch to Encrypt");
+            encrypt.setStyle("-fx-base: #00FF00;");
+            decrypt.setStyle("-fx-base: #FF0000;");
         }
 
 
     }
-    */
+
 
     private void shortKeyWarning()
     {
@@ -211,21 +206,6 @@ public class MainWindow extends Application
         fileMenu.getItems().addAll(newItem, openItem,
                 saveItemAs, saveItem, quitItem);
         cypherMenu.getItems().addAll(vigenere,fourSquare, solitair);
-
-        /*MenuItem switchBack = new MenuItem("Switch back");
-        switchMode.getItems().add(switchBack);
-        mbar.getMenus().add(switchMode);
-
-        //https://community.oracle.com/thread/2398419?tstart=0
-        switchMode.showingProperty().addListener((observableValue, oldValue, newValue) -> {
-            if(newValue.booleanValue()) {
-                switchMode();
-            }
-        });
-        switchBack.setOnAction( e -> {
-            switchMode();
-        });
-*/
 
 
         newItem.setOnAction( e -> {
