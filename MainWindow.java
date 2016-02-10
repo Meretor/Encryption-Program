@@ -37,6 +37,12 @@ public class MainWindow extends Application
     public Popup warning;
     public Handler bleh;
 
+    public enum ciphers{
+        VIGENERE,
+        FOURSQUARE
+    }
+    public ciphers currentcipher;
+
     private Button encrypt = new Button("Encrypt");
     private Button decrypt = new Button("Decrypt");
 
@@ -129,10 +135,7 @@ public class MainWindow extends Application
 
 //////////// LIVE EDITING
 
-        input.setOnKeyReleased(e -> {
-            System.out.print(de);
-            output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de));
-        });
+        input.setOnKeyReleased(e -> output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de)));
 
         keyWord.setOnKeyReleased(e -> output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de)));
 
@@ -151,8 +154,16 @@ public class MainWindow extends Application
         primary.show();
         //shortKeyWarning();
     }
-    private void switchCipher(){
-
+    private void switchCipher(ciphers newcipher){
+        currentcipher = newcipher;
+        switch (currentcipher){
+            case VIGENERE:
+                input.setOnKeyReleased(e -> output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de)));
+                keyWord.setOnKeyReleased(e -> output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de)));
+            case FOURSQUARE:
+                input.setOnKeyReleased(e -> output.setText(FourSquare.controller(input.getText(), !de)));
+                keyWord.setOnKeyReleased(e -> output.setText(FourSquare.controller(input.getText(), !de)));
+        }
     }
 
 
@@ -203,9 +214,16 @@ public class MainWindow extends Application
         MenuItem saveItem = new MenuItem("Save Encryped");
         MenuItem saveItemAs = new MenuItem("Save As...");
         //we don't need save as...
+        //We should talk about this, hunter mentioned something about only having saveAs.
+
+        //TODO: saveas doesn't work after you use opentext, we need to fix.
+
         MenuItem vigenere = new MenuItem("Vigenere");
+        vigenere.setOnAction(e -> switchCipher(ciphers.VIGENERE));
         MenuItem fourSquare = new MenuItem("Four Square");
+        fourSquare.setOnAction(e -> switchCipher(ciphers.FOURSQUARE));
         MenuItem solitair = new MenuItem("Solitaire");
+        //solitair.SetOnAction(e -> switchCipher(ciphers.SOLITAIRE));
         MenuItem quitItem = new MenuItem("Quit");
         fileMenu.getItems().addAll(newItem, openItem,
                 saveItem, saveItemAs, quitItem);

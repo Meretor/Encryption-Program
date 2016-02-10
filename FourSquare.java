@@ -66,7 +66,7 @@ public class FourSquare
         System.out.println(encOne);
         System.out.println(encTwo);
     }
-    public String controller( String in, boolean choice)
+    public static String controller( String in, boolean choice)
     {
         if (Common.sanitize(in).length() % 2 != 0)
         {
@@ -102,14 +102,14 @@ public class FourSquare
         }
         return out.toString();
     }
-    private StringBuffer encrypt(StringBuffer in)
+    private static StringBuffer encrypt(StringBuffer in)
     {
         StringBuffer huff = new StringBuffer("");
         huff.append(encOne.charAt(Common.alph.indexOf(in.charAt(0))/width*width + Common.alph.indexOf(in.charAt(1))%width));
         huff.append(encTwo.charAt(Common.alph.indexOf(in.charAt(1))/width*width + Common.alph.indexOf(in.charAt(0))%width));
         return huff;
     }
-    private StringBuffer decrypt(StringBuffer in)
+    private static StringBuffer decrypt(StringBuffer in)
     {
         StringBuffer puff = new StringBuffer("");
         puff.append(Common.alph.charAt(encOne.indexOf(in.charAt(0))/width*width + encTwo.indexOf(in.charAt(1))%width));
