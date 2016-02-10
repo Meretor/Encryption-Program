@@ -61,6 +61,7 @@ public class MainWindow extends Application
     {
         bp = new BorderPane();
         mbar = new MenuBar();
+        FourSquare.init();
     }
 
     @Override
