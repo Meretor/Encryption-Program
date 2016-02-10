@@ -95,9 +95,13 @@ public class MainWindow extends Application
         //popup.autoHideProperty();
 
 
-       // input.setOnKeyPressed(e -> {if(input.getLength() < 1 ) {(fuck.show(primary);)}});
+        //TODO: AutoClose the Popup after either certain time or every time a key is pressed.
+
+        // input.setOnKeyPressed(e -> {if(input.getLength() < 1 ) {(fuck.show(primary);)}});
         input.setOnKeyPressed(e -> {if(input.getLength() < 1) {fuck.show(primary);}});
         keyWord.setOnKeyPressed(e -> {if(keyWord.getLength() < 5) {popup.show(primary);}});
+        //keyWord.setOnKeyPressed(e -> {if(keyWord.getLength() > 5) {popup.hide();}});
+
 
 //////////// delete this when you add in the "if key is x long"
         Button show = new Button("Show");
@@ -124,8 +128,6 @@ public class MainWindow extends Application
         });
 
 //////////// LIVE EDITING
-
-        //TODO: If at any time text in key Text Area =< 5 characters in length, then run keyShortWarning.
 
         input.setOnKeyReleased(e -> {
             System.out.print(de);
@@ -206,7 +208,7 @@ public class MainWindow extends Application
         MenuItem solitair = new MenuItem("Solitaire");
         MenuItem quitItem = new MenuItem("Quit");
         fileMenu.getItems().addAll(newItem, openItem,
-                 saveItem, saveItemAs, quitItem);
+                saveItem, saveItemAs, quitItem);
         cypherMenu.getItems().addAll(vigenere,fourSquare, solitair);
 
 
@@ -265,7 +267,7 @@ public class MainWindow extends Application
             Platform.exit();
         });
     }
-///////////// RUN ANOTHER INSTANCE OF APPLICATION - DOESN'T WORK YET
+    ///////////// RUN ANOTHER INSTANCE OF APPLICATION - DOESN'T WORK YET
     public void runAnotherApp() throws Exception
     {
         //this.anotherAppClass = anotherAppClass;
@@ -348,3 +350,5 @@ public class MainWindow extends Application
         launch(args);
     }
 }
+
+//an extra line or testing something...
