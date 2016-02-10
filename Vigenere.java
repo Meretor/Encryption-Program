@@ -11,8 +11,6 @@ public class Vigenere {
         }
     }
     */
-
-    public static String alph = new String("abcdefghijklmnopqrstuvwxyz��� ");
     public static char encrypt(char work, boolean workUp, char key) //Encrypts using Vigenere Cipher
 
     {

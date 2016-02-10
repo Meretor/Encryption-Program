@@ -2,6 +2,9 @@ public class Common
 {
     
     public static String alph = new String("abcdefghijklmnopqrstuvwxyzåäö "); 
+    public static final String ENalph = new String("abcdefghijklmnopqrstuvwxyz");
+    public static final String SValph = new String("abcdefghijklmnopqrstuvwxyzåäö");
+    
     /*
      * Function used to remove any characters not within the alph string - without this, the program would have characters it doesn't
      * know what to do with. This is mainly used with keys in Vigenere, as anything that doesn't have meaning to the program will only get
