@@ -41,7 +41,7 @@ public class MainWindow extends Application
         VIGENERE,
         FOURSQUARE
     }
-    public ciphers currentcipher;
+    public ciphers currentcipher = ciphers.VIGENERE;
 
     private Button encrypt = new Button("Encrypt");
     private Button decrypt = new Button("Decrypt");
@@ -116,9 +116,7 @@ public class MainWindow extends Application
             popup.show(primary);
         });
 //////////// BUTTONS IN MIDDLE HBOX AROUND POPUP
-        //Set button colors
-        encrypt.setStyle("-fx-base: #00FF00;");
-        decrypt.setStyle("-fx-base: #FF0000;");
+
 
 
         encrypt.setOnAction(e -> {
@@ -154,6 +152,9 @@ public class MainWindow extends Application
         primary.setScene(a);
         primary.show();
         //shortKeyWarning();
+        //Set button colors and title by calling switchmode(). A bunch of stuff has to run before switchmode works.
+        de = true;
+        switchMode();
     }
     private void switchCipher(ciphers newcipher){
         currentcipher = newcipher;
