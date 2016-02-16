@@ -116,9 +116,9 @@ public class MainWindow extends Application
             popup.show(primary);
         });
 //////////// BUTTONS IN MIDDLE HBOX AROUND POPUP
-        //Calling switchMode will set the colors
-        de = true;
-        switchMode();
+        //Set button colors
+        encrypt.setStyle("-fx-base: #00FF00;");
+        decrypt.setStyle("-fx-base: #FF0000;");
 
 
         encrypt.setOnAction(e -> {
@@ -161,10 +161,14 @@ public class MainWindow extends Application
             case VIGENERE:
                 input.setOnKeyReleased(e -> output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de)));
                 keyWord.setOnKeyReleased(e -> output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de)));
+                keyWord.setVisible(true);
+                break;
             case FOURSQUARE:
                 input.setOnKeyReleased(e -> output.setText(FourSquare.controller(input.getText(), !de)));
-                keyWord.setOnKeyReleased(e -> output.setText(FourSquare.controller(input.getText(), !de)));
+                keyWord.setVisible(false);
+                break;
         }
+        refreshTitle();
     }
 
 
@@ -185,6 +189,7 @@ public class MainWindow extends Application
             encrypt.setStyle("-fx-base: #00FF00;");
             decrypt.setStyle("-fx-base: #FF0000;");
         }
+        refreshTitle();
 
 
     }
@@ -212,12 +217,8 @@ public class MainWindow extends Application
         mbar.getMenus().add(cypherMenu);
         MenuItem newItem = new MenuItem("New window");
         MenuItem openItem = new MenuItem("Open text...");
-        MenuItem saveItem = new MenuItem("Save Encryped");
-        MenuItem saveItemAs = new MenuItem("Save As...");
-        //we don't need save as...
-        //We should talk about this, hunter mentioned something about only having saveAs.
+        MenuItem saveItem = new MenuItem("Save Encrypted text as...");
 
-        //TODO: saveas doesn't work after you use opentext, we need to fix.
 
         MenuItem vigenere = new MenuItem("Vigenere");
         vigenere.setOnAction(e -> switchCipher(ciphers.VIGENERE));
@@ -227,7 +228,7 @@ public class MainWindow extends Application
         //solitair.SetOnAction(e -> switchCipher(ciphers.SOLITAIRE));
         MenuItem quitItem = new MenuItem("Quit");
         fileMenu.getItems().addAll(newItem, openItem,
-                saveItem, saveItemAs, quitItem);
+                saveItem, quitItem);
         cypherMenu.getItems().addAll(vigenere,fourSquare, solitair);
 
 
@@ -238,7 +239,7 @@ public class MainWindow extends Application
         openItem.setOnAction( e -> {
             selectCurrentFileToOpen();
             readCurrentFile();
-            //refreshTitleBar();
+            //refreshTitle();
             // TODO: Refresh title bar as program name: file name
         });
 
@@ -246,40 +247,12 @@ public class MainWindow extends Application
             selectCurrentFileToOpen();
             readCurrentFile();
         });
-
-        saveItemAs.setOnAction( e -> {
-            if(currentFile != null)
-            {
-                writeCurrentFile();
-            }
-            //handle the current file being null
-            boolean choice = false;
-            if(currentFile == null)
-            {
-                choice = selectCurrentFileToSaveTo();
-            }
-            if(choice)
-            {
-                writeCurrentFile();
-            }
-
-        });
         saveItem.setOnAction( e -> {
-            if(currentFile != null)
-            {
-                writeCurrentFile();
-            }
-            //handle the current file being null
             boolean choice = false;
-            if(currentFile == null)
-            {
-                choice = selectCurrentFileToSaveTo();
-            }
-            if(choice)
-            {
+            choice = selectCurrentFileToSaveTo();
+            if(choice){
                 writeCurrentFile();
             }
-
         });
 
         quitItem.setOnAction( e -> {
@@ -301,7 +274,6 @@ public class MainWindow extends Application
         {
             BufferedWriter bw = new BufferedWriter(new FileWriter(
                     currentFile));
-            //TODO: make it so that if it's writing to an En file vs a De file it's doing it to the correct box.
             String blob = output.getText();
             bw.write(blob);
             bw.close();
@@ -361,6 +333,29 @@ public class MainWindow extends Application
         }
         currentFile = choice;
         return true;
+    }
+    private void refreshTitle(){
+        String displayme = "";
+        if (de){
+            displayme += "Decrypting ";
+        }else{
+            displayme += "Encrypting ";
+        }
+
+        //displayme += currentFile + " ";
+        displayme += "Using ";
+        switch (currentcipher){
+            case VIGENERE:
+                displayme += "Vigenere";
+                break; // Cases are weird, if break isn't here then it does weird things.
+            case FOURSQUARE:
+                displayme += "Foursquare";
+                break;
+            //case
+        }
+        displayme += " Cipher";
+        Stage primStage = (Stage) input.getScene().getWindow();
+        primStage.setTitle(displayme);
 
     }
 
@@ -369,5 +364,3 @@ public class MainWindow extends Application
         launch(args);
     }
 }
-
-//an extra line or testing something...
