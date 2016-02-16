@@ -37,6 +37,7 @@ public class MainWindow extends Application
     public Popup warning;
     public Handler bleh;
 
+
     public enum ciphers{
         VIGENERE,
         FOURSQUARE
@@ -51,6 +52,7 @@ public class MainWindow extends Application
     TextArea input = new TextArea();
     TextArea keyWord = new TextArea();
     TextArea output = new TextArea();
+    MenuItem saveItem = new MenuItem();
 
     private static boolean de;
     private Class<? extends Application> anotherAppClass;
@@ -74,9 +76,6 @@ public class MainWindow extends Application
 
         //Makes windows -- potentially put in init and declare stuff outside of block?
         primary.setTitle("Encrypter-Decrypter");
-        input.setPromptText("Phrase to be encrypted");
-        keyWord.setPromptText("Phrase to encrypt with");
-        output.setPromptText("Encrypted phrase will appear here.");
         output.setEditable(false);
 
 
@@ -185,10 +184,19 @@ public class MainWindow extends Application
         if (de){
             decrypt.setStyle("-fx-base: #00FF00;");
             encrypt.setStyle("-fx-base: #FF0000;");
+            saveItem.setText("Save Decrypted text as...");
+            input.setPromptText("Phrase to be decrypted");
+            keyWord.setPromptText("Phrase to decrypt with");
+            output.setPromptText("Decrypted phrase will appear here.");
+
 
         }else{
             encrypt.setStyle("-fx-base: #00FF00;");
             decrypt.setStyle("-fx-base: #FF0000;");
+            saveItem.setText("Save Encrypted text as...");
+            input.setPromptText("Phrase to be encrypted");
+            keyWord.setPromptText("Phrase to encrypt with");
+            output.setPromptText("Encrypted phrase will appear here.");
         }
         refreshTitle();
 
@@ -218,7 +226,8 @@ public class MainWindow extends Application
         mbar.getMenus().add(cypherMenu);
         MenuItem newItem = new MenuItem("New window");
         MenuItem openItem = new MenuItem("Open text...");
-        MenuItem saveItem = new MenuItem("Save Encrypted text as...");
+
+       // saveItem = new MenuItem("Save Encrypted text as...");
 
 
         MenuItem vigenere = new MenuItem("Vigenere");
