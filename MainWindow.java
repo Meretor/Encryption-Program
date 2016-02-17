@@ -265,12 +265,12 @@ public class MainWindow extends Application
         vigenere.setOnAction(e -> switchCipher(ciphers.VIGENERE));
         MenuItem fourSquare = new MenuItem("Four Square");
         fourSquare.setOnAction(e -> switchCipher(ciphers.FOURSQUARE));
-        MenuItem solitair = new MenuItem("Solitaire");
+        //MenuItem solitair = new MenuItem("Solitaire");
         //solitair.SetOnAction(e -> switchCipher(ciphers.SOLITAIRE));
         MenuItem quitItem = new MenuItem("Quit");
         fileMenu.getItems().addAll(newItem, openItem,
                 saveItem, quitItem);
-        cypherMenu.getItems().addAll(vigenere,fourSquare, solitair);
+        cypherMenu.getItems().addAll(vigenere,fourSquare);
 
         ioMenu.setText("Import/Export Keys");
         ioMenu.getItems().addAll(iKey, oKey);
