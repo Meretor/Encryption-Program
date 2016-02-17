@@ -322,6 +322,14 @@ public class MainWindow extends Application
         {
             input.setText("IO Exception has occurred.  Crap.");
         }
+        switch(currentcipher){
+            case VIGENERE:
+                output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de));
+                break;
+            case FOURSQUARE:
+                output.setText(FourSquare.controller(input.getText(), !de));
+                break;
+        }
     }
 
     private boolean selectCurrentFileToOpen()
@@ -432,6 +440,11 @@ public class MainWindow extends Application
         catch(IOException ex)
         {
             //TODO: popup for Import Failed?
+        }
+        switch(currentcipher) {
+            case FOURSQUARE:
+                output.setText(FourSquare.controller(input.getText(), !de));
+                break;
         }
     }
     public static void main(String[] args)
