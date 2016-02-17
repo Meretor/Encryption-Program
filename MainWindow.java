@@ -46,7 +46,7 @@ public class MainWindow extends Application
 
     private Button encrypt = new Button("Encrypt");
     private Button decrypt = new Button("Decrypt");
-
+    private Button myButt = new Button("Not Safe");
 
 
     TextArea input = new TextArea();
@@ -138,7 +138,17 @@ public class MainWindow extends Application
 
         input.setOnKeyReleased(e -> output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de)));
 
-        keyWord.setOnKeyReleased(e -> output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de)));
+        keyWord.setOnKeyReleased(e -> {
+            output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de));
+            {
+                if (keyWord.getLength() < 5) {
+                    myButt.setText("Not Safe");
+                }
+                if (keyWord.getLength() > 5) {
+                    myButt.setText("  Safe  ");
+                }
+            }
+        });
 
         //make it pretty
         VBox mainColumn = new VBox();
@@ -164,7 +174,17 @@ public class MainWindow extends Application
         switch (currentcipher){
             case VIGENERE:
                 input.setOnKeyReleased(e -> output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de)));
-                keyWord.setOnKeyReleased(e -> output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de)));
+                keyWord.setOnKeyReleased(e -> {
+                    output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de));
+                    {
+                        if (keyWord.getLength() < 5) {
+                            myButt.setText("Not Safe");
+                        }
+                        if (keyWord.getLength() > 5) {
+                            myButt.setText("  Safe  ");
+                        }
+                    }
+                });
                 keyWord.setVisible(true);
                 ioMenu.setVisible(false);
                 break;
@@ -213,20 +233,20 @@ public class MainWindow extends Application
 
     }
 
-/*
-    private void shortKeyWarning()
-    {
-        Popup popup = new Popup();
-        popup.setX(300);
-        popup.setY(200);
-        popup.getContent().addAll(new Circle(359, 315, 8, Color.RED));
-        popup.getContent().addAll(new Text(375, 320, "Encryption NOT Safe"));
-        //popup.show(primary,300,200);
-        //popup.isShowing();
-        //popup.isAutoHide();
-    }
+    /*
+        private void shortKeyWarning()
+        {
+            Popup popup = new Popup();
+            popup.setX(300);
+            popup.setY(200);
+            popup.getContent().addAll(new Circle(359, 315, 8, Color.RED));
+            popup.getContent().addAll(new Text(375, 320, "Encryption NOT Safe"));
+            //popup.show(primary,300,200);
+            //popup.isShowing();
+            //popup.isAutoHide();
+        }
 
-*/
+    */
     private void createFileMenu()
     {
         Menu fileMenu = new Menu("File");
@@ -238,7 +258,7 @@ public class MainWindow extends Application
         MenuItem newItem = new MenuItem("New window");
         MenuItem openItem = new MenuItem("Open text...");
 
-       // saveItem = new MenuItem("Save Encrypted text as...");
+        // saveItem = new MenuItem("Save Encrypted text as...");
 
 
         MenuItem vigenere = new MenuItem("Vigenere");
