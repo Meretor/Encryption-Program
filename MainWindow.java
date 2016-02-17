@@ -53,6 +53,9 @@ public class MainWindow extends Application
     TextArea keyWord = new TextArea();
     TextArea output = new TextArea();
     MenuItem saveItem = new MenuItem();
+    Menu ioMenu = new Menu();
+    MenuItem iKey = new MenuItem();
+    MenuItem oKey = new MenuItem();
 
     private static boolean de;
     private Class<? extends Application> anotherAppClass;
@@ -152,6 +155,7 @@ public class MainWindow extends Application
         primary.show();
         //shortKeyWarning();
         //Set button colors and title by calling switchmode(). A bunch of stuff has to run before switchmode works.
+        switchCipher(ciphers.VIGENERE);
         de = true;
         switchMode();
     }
@@ -162,10 +166,17 @@ public class MainWindow extends Application
                 input.setOnKeyReleased(e -> output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de)));
                 keyWord.setOnKeyReleased(e -> output.setText(Vigenere.controller(input.getText(), Common.sanitize(keyWord.getText()), !de)));
                 keyWord.setVisible(true);
+                ioMenu.setVisible(false);
                 break;
             case FOURSQUARE:
                 input.setOnKeyReleased(e -> output.setText(FourSquare.controller(input.getText(), !de)));
                 keyWord.setVisible(false);
+                ioMenu.setVisible(true);
+                oKey.setText("Export Key");
+                iKey.setText("Import Key");
+                oKey.setOnAction(event -> exportFSKey());
+                iKey.setOnAction(event -> importFSKey());
+
                 break;
         }
         refreshTitle();
@@ -188,7 +199,6 @@ public class MainWindow extends Application
             input.setPromptText("Phrase to be decrypted");
             keyWord.setPromptText("Phrase to decrypt with");
             output.setPromptText("Decrypted phrase will appear here.");
-
 
         }else{
             encrypt.setStyle("-fx-base: #00FF00;");
@@ -241,26 +251,21 @@ public class MainWindow extends Application
                 saveItem, quitItem);
         cypherMenu.getItems().addAll(vigenere,fourSquare, solitair);
 
+        ioMenu.setText("Import/Export Keys");
+        ioMenu.getItems().addAll(iKey, oKey);
+        mbar.getMenus().add(ioMenu);
 
         newItem.setOnAction( e -> {
             //TODO: Start another instance of the application
         });
 
         openItem.setOnAction( e -> {
-            selectCurrentFileToOpen();
-            readCurrentFile();
-            //refreshTitle();
-            // TODO: Refresh title bar as program name: file name
-        });
-
-        openItem.setOnAction( e -> {
-            selectCurrentFileToOpen();
-            readCurrentFile();
+            if (selectCurrentFileToOpen()) {
+                readCurrentFile();
+            }
         });
         saveItem.setOnAction( e -> {
-            boolean choice = false;
-            choice = selectCurrentFileToSaveTo();
-            if(choice){
+            if(selectCurrentFileToSaveTo()){
                 writeCurrentFile();
             }
         });
@@ -368,7 +373,67 @@ public class MainWindow extends Application
         primStage.setTitle(displayme);
 
     }
+    private void exportFSKey(){
+        FileChooser fc = new FileChooser();
+        File choice = fc.showSaveDialog(secondary);
+        if(choice == null){
+            return;
+        }
+        try{
+            BufferedWriter bw = new BufferedWriter(new FileWriter(
+                    choice));
 
+            String blob = "# Foursquare Cipher Keyfile" + '\n'
+                    + Common.alph + '\n'
+                    + FourSquare.encOne + '\n'
+                    + FourSquare.encTwo + '\n';
+            bw.write(blob);
+            bw.close();
+        }
+        catch(IOException ex){
+            //TODO: Popup for Export Failed?
+
+        }
+    }
+    private void importFSKey(){
+        FileChooser fc = new FileChooser();
+        File choice = fc.showOpenDialog(secondary);
+        if(choice == null){
+            return;
+        }
+        try
+        {
+            BufferedReader br = new BufferedReader(new FileReader(choice));
+            StringBuffer sb = new StringBuffer();
+            String buf = "";
+            int counter = 1;
+            while( (buf = br.readLine()) != null)
+            {
+                if((buf.charAt(0) != '#' ) && (buf.charAt(0) != '\n')){ //If a line is not commented out or blank
+                    switch (counter){
+                        case 1:
+                            Common.alph = buf;
+                            break;
+                        case 2:
+                            FourSquare.encOne = buf;
+                            break;
+                        case 3:
+                            FourSquare.encTwo = buf;
+                            break;
+                    }
+                    counter++;
+                }
+            }
+        }
+        catch(FileNotFoundException ex)
+        {
+            //TODO: popup for Import Failed?
+        }
+        catch(IOException ex)
+        {
+            //TODO: popup for Import Failed?
+        }
+    }
     public static void main(String[] args)
     {
         launch(args);
