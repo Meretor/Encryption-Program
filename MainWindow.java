@@ -83,7 +83,7 @@ public class MainWindow extends Application
 
 
 ///////////// ISSUE WARNING
-
+/*
         Popup fuck = new Popup();
         fuck.setX(300);
         fuck.setY(200);
@@ -119,7 +119,7 @@ public class MainWindow extends Application
         });
 //////////// BUTTONS IN MIDDLE HBOX AROUND POPUP
 
-
+*/
 
         encrypt.setOnAction(e -> {
             if (de){
@@ -148,7 +148,7 @@ public class MainWindow extends Application
         Scene a = new Scene(bp, 500, 595);
         buttonColumn.setSpacing(363);
         buttonColumn.getChildren().addAll(encrypt, decrypt);
-        mainColumn.getChildren().addAll(input, keyWord, buttonColumn, output, show);
+        mainColumn.getChildren().addAll(input, keyWord, buttonColumn, output);
         bp.setCenter(mainColumn);
 
         primary.setScene(a);
