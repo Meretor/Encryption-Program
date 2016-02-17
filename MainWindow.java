@@ -146,8 +146,8 @@ public class MainWindow extends Application
 
         bp.setCenter(mainColumn);
         Scene a = new Scene(bp, 500, 595);
-        buttonColumn.setSpacing(363);
-        buttonColumn.getChildren().addAll(encrypt, decrypt);
+        buttonColumn.setSpacing(148);
+        buttonColumn.getChildren().addAll(encrypt, myButt, decrypt);
         mainColumn.getChildren().addAll(input, keyWord, buttonColumn, output);
         bp.setCenter(mainColumn);
 
@@ -213,7 +213,7 @@ public class MainWindow extends Application
 
     }
 
-
+/*
     private void shortKeyWarning()
     {
         Popup popup = new Popup();
@@ -226,6 +226,7 @@ public class MainWindow extends Application
         //popup.isAutoHide();
     }
 
+*/
     private void createFileMenu()
     {
         Menu fileMenu = new Menu("File");
