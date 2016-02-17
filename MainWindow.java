@@ -255,7 +255,7 @@ public class MainWindow extends Application
 
         mbar.getMenus().add(fileMenu);
         mbar.getMenus().add(cypherMenu);
-        MenuItem newItem = new MenuItem("New window");
+        //MenuItem newItem = new MenuItem("New window");
         MenuItem openItem = new MenuItem("Open text...");
 
         // saveItem = new MenuItem("Save Encrypted text as...");
@@ -268,7 +268,7 @@ public class MainWindow extends Application
         //MenuItem solitair = new MenuItem("Solitaire");
         //solitair.SetOnAction(e -> switchCipher(ciphers.SOLITAIRE));
         MenuItem quitItem = new MenuItem("Quit");
-        fileMenu.getItems().addAll(newItem, openItem,
+        fileMenu.getItems().addAll(openItem,
                 saveItem, quitItem);
         cypherMenu.getItems().addAll(vigenere,fourSquare);
 
@@ -276,9 +276,9 @@ public class MainWindow extends Application
         ioMenu.getItems().addAll(iKey, oKey);
         mbar.getMenus().add(ioMenu);
 
-        newItem.setOnAction( e -> {
+        /*newItem.setOnAction( e -> {
             //TODO: Start another instance of the application
-        });
+        });*/
 
         openItem.setOnAction( e -> {
             if (selectCurrentFileToOpen()) {
